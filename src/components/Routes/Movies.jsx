@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate, Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { searchMovies } from '../Api';
 
 const Movies = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const navigate = useNavigate();
+
   const [searchParams, setSearchParams] = useSearchParams(); 
 
   const handleSearch = () => {
