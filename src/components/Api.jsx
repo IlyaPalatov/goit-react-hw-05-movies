@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_KEY = '972977f56f8bd7231d09e6b66c83a88b'; // Replace with your themoviedb.org API key
+const API_KEY = '972977f56f8bd7231d09e6b66c83a88b'; 
 
 const api = axios.create({
   baseURL: 'https://api.themoviedb.org/3/',
@@ -11,7 +11,7 @@ const api = axios.create({
 
 export const getTrendingMovies = async () => {
   try {
-    const response = await api.get('/trending/movie/week'); // Use the correct endpoint here
+    const response = await api.get('/trending/movie/week'); 
     return response.data.results;
   } catch (error) {
     throw new Error('Error fetching trending movies: ' + error.message);

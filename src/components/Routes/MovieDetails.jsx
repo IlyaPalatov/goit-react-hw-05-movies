@@ -11,7 +11,7 @@ const MovieDetails = () => {
   const [showCast, setShowCast] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
 
-  const navigate = useNavigate(); // Get the navigate function
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     getMovieDetails(movieId)
@@ -34,13 +34,13 @@ const MovieDetails = () => {
   const handleShowCast = () => {
     setShowCast(true);
     setShowReviews(false);
-    navigate(`/movies/${movieId}/cast`); // Change URL to include '/cast'
+    navigate(`/movies/${movieId}/cast`);
   };
 
   const handleShowReviews = () => {
     setShowReviews(true);
     setShowCast(false);
-    navigate(`/movies/${movieId}/reviews`); // Change URL to include '/reviews'
+    navigate(`/movies/${movieId}/reviews`); 
   };
 
   return (

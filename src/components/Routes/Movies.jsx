@@ -6,13 +6,12 @@ const Movies = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams(); // Get the search parameters
+  const [searchParams, setSearchParams] = useSearchParams(); 
 
   const handleSearch = () => {
     searchMovies(searchTerm)
       .then((movies) => {
         setSearchResults(movies);
-        // Update the URL with the search query as a parameter
         setSearchParams({ query: searchTerm });
       })
       .catch((error) => {
@@ -20,7 +19,7 @@ const Movies = () => {
       });
   };
 
-  // Update the search term from the URL parameter on component mount
+
   React.useEffect(() => {
     const query = searchParams.get('query');
     if (query) {
@@ -37,7 +36,6 @@ const Movies = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       <button onClick={handleSearch}>Search</button>
-
       {searchResults.length > 0 && (
         <div>
           <h2>Search Results</h2>
