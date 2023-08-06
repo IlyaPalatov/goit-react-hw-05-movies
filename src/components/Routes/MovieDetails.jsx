@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, Route, Routes, Link } from 'react-router-dom';
+import { useParams, Route, Routes, Link } from 'react-router-dom';
 import { getMovieDetails } from '../Api';
 import Cast from './Cast';
 import Reviews from './Reviews';
