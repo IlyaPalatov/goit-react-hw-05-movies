@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getMovieDetails, getMovieCredits } from '../Api';
+import { useParams, useNavigate, Route, Routes, Link } from 'react-router-dom';
+import { getMovieDetails } from '../Api';
 import Cast from './Cast';
 import Reviews from './Reviews';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movieDetails, setMovieDetails] = useState({});
-  const [cast, setCast] = useState([]);
-  const [showCast, setShowCast] = useState(false);
-  const [showReviews, setShowReviews] = useState(false);
-
-  const navigate = useNavigate(); 
 
   useEffect(() => {
     getMovieDetails(movieId)
@@ -21,27 +16,7 @@ const MovieDetails = () => {
       .catch((error) => {
         console.error('Error fetching movie details:', error);
       });
-
-    getMovieCredits(movieId)
-      .then((cast) => {
-        setCast(cast);
-      })
-      .catch((error) => {
-        console.error('Error fetching cast:', error);
-      });
   }, [movieId]);
-
-  const handleShowCast = () => {
-    setShowCast(true);
-    setShowReviews(false);
-    navigate(`/movies/${movieId}/cast`);
-  };
-
-  const handleShowReviews = () => {
-    setShowReviews(true);
-    setShowCast(false);
-    navigate(`/movies/${movieId}/reviews`); 
-  };
 
   return (
     <div>
@@ -52,11 +27,15 @@ const MovieDetails = () => {
       />
       <p>{movieDetails.overview}</p>
 
-      <button onClick={handleShowCast}>Cast</button>
-      <button onClick={handleShowReviews}>Reviews</button>
+       
+      <Link to={`/movies/${movieId}/cast`}>Cast</Link>
 
-      {showCast && <Cast cast={cast} />}
-      {showReviews && <Reviews movieId={movieId} />}
+      <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
+
+      <Routes>
+        <Route path="cast" element={<Cast movieId={movieId} />} />
+        <Route path="reviews" element={<Reviews movieId={movieId} />} />
+      </Routes>
     </div>
   );
 };

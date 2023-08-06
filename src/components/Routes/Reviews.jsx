@@ -1,13 +1,14 @@
+// Reviews.jsx
 import React, { useEffect, useState } from 'react';
-import { getMovieReviews } from '../Api'; 
+import { getMovieReviews } from '../Api';
 
 const Reviews = ({ movieId }) => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     getMovieReviews(movieId)
-      .then((response) => {
-        setReviews(response);
+      .then((reviews) => {
+        setReviews(reviews);
       })
       .catch((error) => {
         console.error('Error fetching movie reviews:', error);
