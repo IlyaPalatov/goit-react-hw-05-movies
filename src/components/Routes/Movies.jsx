@@ -12,12 +12,11 @@ const Movies = () => {
     searchMovies(searchTerm)
       .then((movies) => {
         setSearchResults(movies);
-        setSearchParams({ query: searchTerm });
       })
       .catch((error) => {
         console.error('Error searching movies:', error);
       });
-  }, [searchTerm, setSearchParams]);
+  }, [searchTerm]);
 
   useEffect(() => {
     const query = searchParams.get('query');
@@ -27,6 +26,10 @@ const Movies = () => {
     }
   }, [searchParams, handleSearch]);
 
+  const handleSubmitSearchTerm = (query) => {
+    setSearchParams({ query: query });
+  };
+
   return (
     <div>
       <h1>Search Movies</h1>
@@ -35,7 +38,7 @@ const Movies = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <button onClick={handleSearch}>Search</button>
+      <button onClick={() => handleSubmitSearchTerm(searchTerm)}>Search</button>
       {searchResults.length > 0 && (
         <div>
           <h2>Search Results</h2>
