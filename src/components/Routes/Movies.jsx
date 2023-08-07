@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { searchMovies } from '../Api';
@@ -6,36 +7,47 @@ const Movies = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
-  const [searchParams, setSearchParams] = useSearchParams(); 
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleSearch = () => {
-    searchMovies(searchTerm)
+  React.useEffect(() => {
+    const query = searchParams.get('query');
+    if (query) {
+      setSearchTerm(query);
+      handleSearch(query); 
+    }
+  }, [searchParams]);
+
+  const handleSearch = (query) => {
+    searchMovies(query)
       .then((movies) => {
         setSearchResults(movies);
-        setSearchParams({ query: searchTerm });
+        setSearchParams({ query }); 
       })
       .catch((error) => {
         console.error('Error searching movies:', error);
       });
   };
 
+  const handleInputChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
-  React.useEffect(() => {
-    const query = searchParams.get('query');
-    if (query) {
-      setSearchTerm(query);
-    }
-  }, [searchParams]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleSearch(searchTerm); 
+  };
 
   return (
     <div>
       <h1>Search Movies</h1>
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <button onClick={handleSearch}>Search</button>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={handleInputChange}
+        />
+        <button type="submit">Search</button>
+      </form>
       {searchResults.length > 0 && (
         <div>
           <h2>Search Results</h2>

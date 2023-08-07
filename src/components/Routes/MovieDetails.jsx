@@ -1,5 +1,6 @@
+// Оптимізований MovieDetails компонент
 import React, { useEffect, useState } from 'react';
-import { useParams, Route, Routes, Link } from 'react-router-dom';
+import { useParams, useNavigate, Route, Routes, Link } from 'react-router-dom';
 import { getMovieDetails } from '../Api';
 import Cast from './Cast';
 import Reviews from './Reviews';
@@ -7,6 +8,11 @@ import Reviews from './Reviews';
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movieDetails, setMovieDetails] = useState({});
+  const [cast, setCast] = useState([]);
+  const [showCast, setShowCast] = useState(false);
+  const [showReviews, setShowReviews] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getMovieDetails(movieId)
@@ -18,6 +24,18 @@ const MovieDetails = () => {
       });
   }, [movieId]);
 
+  const handleShowCast = () => {
+    setShowCast(true);
+    setShowReviews(false);
+    navigate(`/movies/${movieId}/cast`);
+  };
+
+  const handleShowReviews = () => {
+    setShowReviews(true);
+    setShowCast(false);
+    navigate(`/movies/${movieId}/reviews`);
+  };
+
   return (
     <div>
       <h1>{movieDetails.title}</h1>
@@ -27,9 +45,7 @@ const MovieDetails = () => {
       />
       <p>{movieDetails.overview}</p>
 
-       
       <Link to={`/movies/${movieId}/cast`}>Cast</Link>
-
       <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
 
       <Routes>
