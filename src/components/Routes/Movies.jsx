@@ -8,23 +8,22 @@ const Movies = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleSearch = useCallback(() => {
-    searchMovies(searchTerm)
-      .then((movies) => {
-        setSearchResults(movies);
-      })
-      .catch((error) => {
-        console.error('Error searching movies:', error);
-      });
-  }, [searchTerm]);
+  const fetchData = useCallback(async (query) => {
+    try {
+      const movies = await searchMovies(query);
+      setSearchResults(movies);
+    } catch (error) {
+      console.error('Error searching movies:', error);
+    }
+  }, []);
 
   useEffect(() => {
     const query = searchParams.get('query');
     if (query) {
       setSearchTerm(query);
-      handleSearch();
+      fetchData(query);
     }
-  }, [searchParams, handleSearch]);
+  }, [searchParams, fetchData]);
 
   const handleSubmitSearchTerm = (query) => {
     setSearchParams({ query: query });
